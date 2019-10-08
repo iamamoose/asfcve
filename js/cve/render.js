@@ -1,6 +1,6 @@
 function pug_attr(t,e,n,r){if(!1===e||null==e||!e&&("class"===t||"style"===t))return"";if(!0===e)return" "+(r?t:t+'="'+t+'"');var f=typeof e;return"object"!==f&&"function"!==f||"function"!=typeof e.toJSON||(e=e.toJSON()),"string"==typeof e||(e=JSON.stringify(e),n||-1===e.indexOf('"'))?(n&&(e=pug_escape(e))," "+t+'="'+e+'"'):" "+t+"='"+e.replace(/'/g,"&#39;")+"'"}
 function pug_escape(e){var a=""+e,t=pug_match_html.exec(a);if(!t)return e;var r,c,n,s="";for(r=t.index,c=0;r<a.length;r++){switch(a.charCodeAt(r)){case 34:n="&quot;";break;case 38:n="&amp;";break;case 60:n="&lt;";break;case 62:n="&gt;";break;default:continue}c!==r&&(s+=a.substring(c,r)),c=r+1,s+=n}return c!==r?s+a.substring(c,r):s}
-var pug_match_html=/["&<>]/;function pugRender(locals) {var pug_html = "", pug_mixins = {}, pug_interp;;var locals_for_with = (locals || {});(function (Date, defectURL, doc, doc_id, getProductListNoVendor, isNaN, renderTemplate, textUtil) {pug_mixins["mitre"] = pug_interp = function(cve){
+var pug_match_html=/["&<>]/;function pugRender(locals) {var pug_html = "", pug_mixins = {}, pug_interp;;var locals_for_with = (locals || {});(function (Date, Object, cmap, defectURL, doc, doc_id, getProductListNoVendor, isNaN, renderTemplate, textUtil) {pug_mixins["mitre"] = pug_interp = function(cve){
 var block = (this && this.block), attributes = (this && this.attributes) || {};
 pug_html = pug_html + "\u003Ch2\u003EMITRE CVE entry preview\u003C\u002Fh2\u003E\u003Cdiv id=\"GeneratedTable\"\u003E\u003Ctable cellpadding=\"0\" cellspacing=\"0\" border=\"0\"\u003E\u003Ctbody\u003E\u003Ctr\u003E\u003Cth colspan=\"2\"\u003ECVE-ID\u003C\u002Fth\u003E\u003C\u002Ftr\u003E\u003Ctr\u003E\u003Ctd nowrap=\"nowrap\"\u003E\u003Ch2\u003E" + (pug_escape(null == (pug_interp = cve.CVE_data_meta.ID) ? "" : pug_interp)) + "\u003C\u002Fh2\u003E\u003C\u002Ftd\u003E\u003Ctd class=\"ltgreybackground\"\u003E\u003Cdiv class=\"larger\"\u003E\u003Ca\u003ELearn more at National Vulnerability Database (NVD)\u003C\u002Fa\u003E\u003C\u002Fdiv\u003E\u003Cdiv class=\"smaller\"\u003E• Severity Rating • Fix Information • Vulnerable Software Versions • SCAP Mappings\u003C\u002Fdiv\u003E\u003C\u002Ftd\u003E\u003C\u002Ftr\u003E\u003Ctr\u003E\u003Cth colspan=\"2\"\u003EDescription\u003C\u002Fth\u003E\u003C\u002Ftr\u003E\u003Ctr\u003E\u003Ctd colspan=\"2\"\u003E";
 // iterate cve.description.description_data
@@ -367,7 +367,49 @@ if (CDM.AKA) {
 pug_html = pug_html + "\u003Cp\u003EThis issue is also known as " + (pug_escape(null == (pug_interp = CDM.AKA) ? "" : pug_interp)) + ".\u003C\u002Fp\u003E";
 }
 }
-pug_html = pug_html + "\u003Cp\u003EThis issue has been assigned \u003Ca" + (pug_attr("href", "http://cve.mitre.org/cgi-bin/cvename.cgi?name="+cveid, true, false)) + "\u003E" + (pug_escape(null == (pug_interp = cveid) ? "" : pug_interp)) + "\u003C\u002Fa\u003E.\u003C\u002Fp\u003E\u003Ch4\u003ESOLUTION:\u003C\u002Fh4\u003E";
+if (cmap && Object.keys(cmap).length > 0 && cmap.constructor === Object) {
+pug_mixins["mpara"](cve.CNA_private.CVE_table_description);
+pug_html = pug_html + "\u003Ctable class=\"striped\"\u003E\u003Ctr class=\"rowHead\"\u003E\u003Cth\u003ECVE\u003C\u002Fth\u003E\u003Cth\u003ECVSS\u003C\u002Fth\u003E\u003Cth\u003ESummary\u003C\u002Fth\u003E\u003C\u002Ftr\u003E";
+// iterate cmap
+;(function(){
+  var $$obj = cmap;
+  if ('number' == typeof $$obj.length) {
+      for (var id = 0, $$l = $$obj.length; id < $$l; id++) {
+        var x = $$obj[id];
+pug_html = pug_html + "\u003Ctr\u003E\u003Ctd\u003E" + (pug_escape(null == (pug_interp = id) ? "" : pug_interp)) + "\u003C\u002Ftd\u003E\u003Ctd\u003E";
+if (cmap[id] && cmap[id].impact) {
+pug_mixins["CVSS"](cmap[id].impact.cvss);
+}
+pug_html = pug_html + "\u003C\u002Ftd\u003E\u003Ctd\u003E";
+if (cmap[id] && cmap[id].summary) {
+pug_html = pug_html + (pug_escape(null == (pug_interp = cmap[id].summary) ? "" : pug_interp));
+}
+pug_html = pug_html + "\u003C\u002Ftd\u003E\u003C\u002Ftr\u003E";
+      }
+  } else {
+    var $$l = 0;
+    for (var id in $$obj) {
+      $$l++;
+      var x = $$obj[id];
+pug_html = pug_html + "\u003Ctr\u003E\u003Ctd\u003E" + (pug_escape(null == (pug_interp = id) ? "" : pug_interp)) + "\u003C\u002Ftd\u003E\u003Ctd\u003E";
+if (cmap[id] && cmap[id].impact) {
+pug_mixins["CVSS"](cmap[id].impact.cvss);
+}
+pug_html = pug_html + "\u003C\u002Ftd\u003E\u003Ctd\u003E";
+if (cmap[id] && cmap[id].summary) {
+pug_html = pug_html + (pug_escape(null == (pug_interp = cmap[id].summary) ? "" : pug_interp));
+}
+pug_html = pug_html + "\u003C\u002Ftd\u003E\u003C\u002Ftr\u003E";
+    }
+  }
+}).call(this);
+
+pug_html = pug_html + "\u003C\u002Ftable\u003E";
+}
+else {
+pug_html = pug_html + "\u003Cp\u003EThis issue has been assigned \u003Ca" + (pug_attr("href", "http://cve.mitre.org/cgi-bin/cvename.cgi?name="+cveid, true, false)) + "\u003E" + (pug_escape(null == (pug_interp = cveid) ? "" : pug_interp)) + "\u003C\u002Fa\u003E.\u003C\u002Fp\u003E";
+}
+pug_html = pug_html + "\u003Ch4\u003ESOLUTION:\u003C\u002Fh4\u003E";
 pug_mixins["mpara"](cve.solution);
 if (cve.source.defect && cve.source.defect.length > 0) {
 pug_html = pug_html + "\u003Cp\u003EThis issue is being tracked as ";
@@ -386,15 +428,15 @@ pug_html = pug_html + "\u003Cli\u003E\u003Ca" + (pug_attr("href", "http://cve.mi
 ;(function(){
   var $$obj = cve.references.reference_data;
   if ('number' == typeof $$obj.length) {
-      for (var pug_index10 = 0, $$l = $$obj.length; pug_index10 < $$l; pug_index10++) {
-        var r = $$obj[pug_index10];
+      for (var pug_index11 = 0, $$l = $$obj.length; pug_index11 < $$l; pug_index11++) {
+        var r = $$obj[pug_index11];
 pug_html = pug_html + "\u003Cli\u003E\u003Ca" + (pug_attr("href", r.url, true, false)) + "\u003E" + (pug_escape(null == (pug_interp = r.url) ? "" : pug_interp)) + "\u003C\u002Fa\u003E\u003C\u002Fli\u003E";
       }
   } else {
     var $$l = 0;
-    for (var pug_index10 in $$obj) {
+    for (var pug_index11 in $$obj) {
       $$l++;
-      var r = $$obj[pug_index10];
+      var r = $$obj[pug_index11];
 pug_html = pug_html + "\u003Cli\u003E\u003Ca" + (pug_attr("href", r.url, true, false)) + "\u003E" + (pug_escape(null == (pug_interp = r.url) ? "" : pug_interp)) + "\u003C\u002Fa\u003E\u003C\u002Fli\u003E";
     }
   }
@@ -415,15 +457,15 @@ pug_html = pug_html + "\u003Ch4\u003EACKNOWLEDGEMENTS:\u003C\u002Fh4\u003E\u003C
 ;(function(){
   var $$obj = cve.credit;
   if ('number' == typeof $$obj.length) {
-      for (var pug_index11 = 0, $$l = $$obj.length; pug_index11 < $$l; pug_index11++) {
-        var c = $$obj[pug_index11];
+      for (var pug_index12 = 0, $$l = $$obj.length; pug_index12 < $$l; pug_index12++) {
+        var c = $$obj[pug_index12];
 pug_html = pug_html + "\u003Cli\u003E" + (pug_escape(null == (pug_interp = c.value) ? "" : pug_interp)) + "\u003C\u002Fli\u003E";
       }
   } else {
     var $$l = 0;
-    for (var pug_index11 in $$obj) {
+    for (var pug_index12 in $$obj) {
       $$l++;
-      var c = $$obj[pug_index11];
+      var c = $$obj[pug_index12];
 pug_html = pug_html + "\u003Cli\u003E" + (pug_escape(null == (pug_interp = c.value) ? "" : pug_interp)) + "\u003C\u002Fli\u003E";
     }
   }
@@ -459,4 +501,4 @@ pug_mixins["page"](doc);
 }
 else {
 pug_html = pug_html + "\u003Cdiv class=\"tred\"\u003EDocument not found\u003C\u002Fdiv\u003E";
-}}.call(this,"Date" in locals_for_with?locals_for_with.Date:typeof Date!=="undefined"?Date:undefined,"defectURL" in locals_for_with?locals_for_with.defectURL:typeof defectURL!=="undefined"?defectURL:undefined,"doc" in locals_for_with?locals_for_with.doc:typeof doc!=="undefined"?doc:undefined,"doc_id" in locals_for_with?locals_for_with.doc_id:typeof doc_id!=="undefined"?doc_id:undefined,"getProductListNoVendor" in locals_for_with?locals_for_with.getProductListNoVendor:typeof getProductListNoVendor!=="undefined"?getProductListNoVendor:undefined,"isNaN" in locals_for_with?locals_for_with.isNaN:typeof isNaN!=="undefined"?isNaN:undefined,"renderTemplate" in locals_for_with?locals_for_with.renderTemplate:typeof renderTemplate!=="undefined"?renderTemplate:undefined,"textUtil" in locals_for_with?locals_for_with.textUtil:typeof textUtil!=="undefined"?textUtil:undefined));;return pug_html;}
+}}.call(this,"Date" in locals_for_with?locals_for_with.Date:typeof Date!=="undefined"?Date:undefined,"Object" in locals_for_with?locals_for_with.Object:typeof Object!=="undefined"?Object:undefined,"cmap" in locals_for_with?locals_for_with.cmap:typeof cmap!=="undefined"?cmap:undefined,"defectURL" in locals_for_with?locals_for_with.defectURL:typeof defectURL!=="undefined"?defectURL:undefined,"doc" in locals_for_with?locals_for_with.doc:typeof doc!=="undefined"?doc:undefined,"doc_id" in locals_for_with?locals_for_with.doc_id:typeof doc_id!=="undefined"?doc_id:undefined,"getProductListNoVendor" in locals_for_with?locals_for_with.getProductListNoVendor:typeof getProductListNoVendor!=="undefined"?getProductListNoVendor:undefined,"isNaN" in locals_for_with?locals_for_with.isNaN:typeof isNaN!=="undefined"?isNaN:undefined,"renderTemplate" in locals_for_with?locals_for_with.renderTemplate:typeof renderTemplate!=="undefined"?renderTemplate:undefined,"textUtil" in locals_for_with?locals_for_with.textUtil:typeof textUtil!=="undefined"?textUtil:undefined));;return pug_html;}
