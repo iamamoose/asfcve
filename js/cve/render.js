@@ -202,7 +202,7 @@ pug_html = pug_html + (pug_escape(null == (pug_interp = v) ? "" : pug_interp));
 pug_mixins["CVSS"] = pug_interp = function(value){
 var block = (this && this.block), attributes = (this && this.attributes) || {};
 pug_html = pug_html + (pug_escape(null == (pug_interp = value.baseScore.toFixed(1)) ? "" : pug_interp)) + " ";
-if (value.version >= "3.0") {
+if (value.version >= "3") {
 pug_html = pug_html + "(\u003Ca" + (pug_attr("href", "https://cvssjs.github.io/#" + value.vectorString, true, false)) + "\u003E" + (pug_escape(null == (pug_interp = value.vectorString) ? "" : pug_interp)) + "\u003C\u002Fa\u003E)";
 }
 else {
@@ -225,7 +225,7 @@ var block = (this && this.block), attributes = (this && this.attributes) || {};
 var sourceText = {"INTERNAL":"This issue was found during internal product security testing or research.", "EXTERNAL":"This issue was discovered during an external security research.", "USER":"This issue was seen during production usage.", "UNKNOWN":""};
 var CDM = cve.CVE_data_meta;
 var cveid = CDM.ID.match(/^CVE-[0-9-]+$/)? CDM.ID : 'CVE-yyyy-nnnn';
-pug_html = pug_html + ("\u003Cpre\u003E" + (pug_escape(null == (pug_interp = "To: oss-security@lists.openwall.com") ? "" : pug_interp)) + "\u003Cbr\u002F\u003E" + (pug_escape(null == (pug_interp = "From: " + cve.CVE_data_meta.EMAIL) ? "" : pug_interp)) + "\u003Cbr\u002F\u003E" + (pug_escape(null == (pug_interp = "Reply-to: **yourusermailinglist**@**project**.apache.org") ? "" : pug_interp)) + "\u003Cbr\u002F\u003E" + (pug_escape(null == (pug_interp = "Subject: ") ? "" : pug_interp)));
+pug_html = pug_html + ("\u003Cpre\u003E" + (pug_escape(null == (pug_interp = "To: oss-security@lists.openwall.com") ? "" : pug_interp)) + "\u003Cbr\u002F\u003E" + (pug_escape(null == (pug_interp = "From: " + cve.CVE_data_meta.EMAIL) ? "" : pug_interp)) + "\u003Cbr\u002F\u003E" + (pug_escape(null == (pug_interp = "Reply-to: [users]@[project].apache.org") ? "" : pug_interp)) + "\u003Cbr\u002F\u003E" + (pug_escape(null == (pug_interp = "Subject: ") ? "" : pug_interp)));
 if (cve.source.advisory) {
 pug_html = pug_html + (pug_escape(null == (pug_interp = cve.source.advisory +": ") ? "" : pug_interp));
 }
@@ -340,6 +340,27 @@ pug_mixins["CVSS"](cve.impact.cvss);
 }
 pug_html = pug_html + "\u003C\u002Fspan\u003E\u003C\u002Fli\u003E\u003Cli\u003E\u003Cb class=\"term\"\u003EPR: \u003C\u002Fb\u003E\u003Cspan class=\"text\"\u003E" + (pug_escape(null == (pug_interp = cve.source.defect) ? "" : pug_interp)) + "\u003C\u002Fspan\u003E\u003C\u002Fli\u003E\u003Cli\u003E\u003Cb class=\"term\"\u003EAffects: \u003C\u002Fb\u003E\u003Cspan class=\"text\"\u003E" + (pug_escape(null == (pug_interp = textUtil.getProductAffected(cve)) ? "" : pug_interp)) + "\u003C\u002Fspan\u003E\u003C\u002Fli\u003E\u003Cli\u003E\u003Cb class=\"term\"\u003EProblem: \u003C\u002Fb\u003E\u003Cspan class=\"text\"\u003E";
 pug_mixins["mpara"](cve.description.description_data.slice(0,1));
+if (cmap && Object.keys(cmap).length > 0 && cmap.constructor === Object) {
+pug_mixins["mpara"](cve.CNA_private.CVE_table_description);
+// iterate cmap
+;(function(){
+  var $$obj = cmap;
+  if ('number' == typeof $$obj.length) {
+      for (var id = 0, $$l = $$obj.length; id < $$l; id++) {
+        var x = $$obj[id];
+pug_html = pug_html + (pug_escape(null == (pug_interp = id + " ") ? "" : pug_interp));
+      }
+  } else {
+    var $$l = 0;
+    for (var id in $$obj) {
+      $$l++;
+      var x = $$obj[id];
+pug_html = pug_html + (pug_escape(null == (pug_interp = id + " ") ? "" : pug_interp));
+    }
+  }
+}).call(this);
+
+}
 pug_html = pug_html + "\u003C\u002Fspan\u003E\u003C\u002Fli\u003E\u003Cli\u003E\u003Cb class=\"term\"\u003EWorkaround: \u003C\u002Fb\u003E\u003Cspan class=\"text\"\u003E";
 pug_mixins["mpara"](cve.work_around);
 pug_html = pug_html + "\u003C\u002Fspan\u003E\u003C\u002Fli\u003E\u003Cli\u003E\u003Cb class=\"term\"\u003ESolution: \u003C\u002Fb\u003E\u003Cspan class=\"text\"\u003E";
@@ -428,15 +449,15 @@ pug_html = pug_html + "\u003Cli\u003E\u003Ca" + (pug_attr("href", "http://cve.mi
 ;(function(){
   var $$obj = cve.references.reference_data;
   if ('number' == typeof $$obj.length) {
-      for (var pug_index11 = 0, $$l = $$obj.length; pug_index11 < $$l; pug_index11++) {
-        var r = $$obj[pug_index11];
+      for (var pug_index12 = 0, $$l = $$obj.length; pug_index12 < $$l; pug_index12++) {
+        var r = $$obj[pug_index12];
 pug_html = pug_html + "\u003Cli\u003E\u003Ca" + (pug_attr("href", r.url, true, false)) + "\u003E" + (pug_escape(null == (pug_interp = r.url) ? "" : pug_interp)) + "\u003C\u002Fa\u003E\u003C\u002Fli\u003E";
       }
   } else {
     var $$l = 0;
-    for (var pug_index11 in $$obj) {
+    for (var pug_index12 in $$obj) {
       $$l++;
-      var r = $$obj[pug_index11];
+      var r = $$obj[pug_index12];
 pug_html = pug_html + "\u003Cli\u003E\u003Ca" + (pug_attr("href", r.url, true, false)) + "\u003E" + (pug_escape(null == (pug_interp = r.url) ? "" : pug_interp)) + "\u003C\u002Fa\u003E\u003C\u002Fli\u003E";
     }
   }
@@ -457,15 +478,15 @@ pug_html = pug_html + "\u003Ch4\u003EACKNOWLEDGEMENTS:\u003C\u002Fh4\u003E\u003C
 ;(function(){
   var $$obj = cve.credit;
   if ('number' == typeof $$obj.length) {
-      for (var pug_index12 = 0, $$l = $$obj.length; pug_index12 < $$l; pug_index12++) {
-        var c = $$obj[pug_index12];
+      for (var pug_index13 = 0, $$l = $$obj.length; pug_index13 < $$l; pug_index13++) {
+        var c = $$obj[pug_index13];
 pug_html = pug_html + "\u003Cli\u003E" + (pug_escape(null == (pug_interp = c.value) ? "" : pug_interp)) + "\u003C\u002Fli\u003E";
       }
   } else {
     var $$l = 0;
-    for (var pug_index12 in $$obj) {
+    for (var pug_index13 in $$obj) {
       $$l++;
-      var c = $$obj[pug_index12];
+      var c = $$obj[pug_index13];
 pug_html = pug_html + "\u003Cli\u003E" + (pug_escape(null == (pug_interp = c.value) ? "" : pug_interp)) + "\u003C\u002Fli\u003E";
     }
   }
